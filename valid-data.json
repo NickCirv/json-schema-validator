@@ -1,0 +1,19 @@
+{
+  "id": 1,
+  "name": "Alice Johnson",
+  "email": "alice@example.com",
+  "age": 30,
+  "role": "admin",
+  "website": "https://alice.example.com",
+  "tags": ["developer", "open-source"],
+  "address": {
+    "street": "123 Main St",
+    "city": "Springfield",
+    "zip": "12345"
+  },
+  "score": 97.5,
+  "metadata": {
+    "source": "signup",
+    "plan": "pro"
+  }
+}

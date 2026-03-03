@@ -1,0 +1,17 @@
+{
+  "id": -5,
+  "name": "B",
+  "email": "not-an-email",
+  "age": 200,
+  "role": "superadmin",
+  "website": "not-a-uri",
+  "tags": ["dup", "dup"],
+  "address": {
+    "street": "Oak Ave",
+    "city": "Shelbyville",
+    "zip": "ABCDE",
+    "country": "US"
+  },
+  "score": 101,
+  "unknownField": true
+}

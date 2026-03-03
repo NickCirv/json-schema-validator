@@ -1,0 +1,29 @@
+{
+  "name": "json-schema-validator",
+  "version": "1.0.0",
+  "description": "CLI JSON Schema validator (draft-7). Pure JS implementation, no dependencies. Validate files, dirs, or watch mode.",
+  "type": "module",
+  "bin": {
+    "json-schema-validator": "./index.js",
+    "jsv": "./index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "developer-tools",
+    "cli",
+    "nodejs",
+    "zero-dependencies",
+    "json-schema",
+    "validation",
+    "json",
+    "schema",
+    "api-testing"
+  ],
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "README.md"
+  ]
+}
