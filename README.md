@@ -1,3 +1,5 @@
+![Banner](banner.svg)
+
 # json-schema-validator
 
 CLI JSON Schema validator (draft-7). Pure JavaScript — zero external dependencies. Validate files, directories, or use watch mode.
