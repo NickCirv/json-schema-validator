@@ -1,141 +1,48 @@
-![Banner](banner.svg)
+<div align="center">
 
 # json-schema-validator
 
-CLI JSON Schema validator (draft-7). Pure JavaScript — zero external dependencies. Validate files, directories, or use watch mode.
+**Validate JSON files against a draft-7 schema — zero dependencies, from the terminal.**
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue?labelColor=0B0A09)](LICENSE)
+[![Zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?labelColor=0B0A09)](package.json)
+[![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-339933?labelColor=0B0A09&logo=node.js&logoColor=white)](package.json)
+
+</div>
 
 ## Install
 
 ```bash
-npm install -g json-schema-validator
+npx github:NickCirv/json-schema-validator schema.json data.json
 ```
 
-Or run without installing:
+Or install globally for the `jsv` shorthand:
 
 ```bash
-npx json-schema-validator schema.json data.json
+npm install -g github:NickCirv/json-schema-validator
 ```
 
 ## Usage
 
 ```bash
-jsv <schema.json> <data.json>          # Validate a single file
-jsv <schema.json> <dir/>               # Validate all .json files in directory
-jsv <schema.json> *.json               # Glob support
-jsv <schema.json> a.json b.json        # Multiple files
+jsv schema.json data.json              # validate a single file
+jsv schema.json ./fixtures/            # validate every .json in a directory
+jsv schema.json *.json --errors-only   # CI — print failures only
+jsv schema.json data.json --watch      # re-validate on file changes
 ```
-
-## Options
 
 | Flag | Description |
 |------|-------------|
-| `--watch` | Watch for file changes and re-validate |
+| `--watch` | Re-validate on file changes |
 | `--json` | Output results as JSON (CI-friendly) |
-| `--coerce` | Attempt type coercion before failing (e.g. `"42"` → `42`) |
+| `--coerce` | Attempt type coercion before failing (`"42"` → `42`) |
 | `--errors-only` | Suppress output for valid files |
-| `--help` | Show help |
 
-## Exit Codes
+**Exit codes:** `0` all valid · `1` validation errors · `2` schema/parse error
 
-| Code | Meaning |
-|------|---------|
-| `0` | All files valid |
-| `1` | One or more validation errors |
-| `2` | Schema or JSON parse error |
+## What it does
 
-## Examples
+Runs JSON Schema draft-7 validation entirely in pure Node.js — no Ajv, no ajv-formats, no install overhead. Supports the full keyword set: `allOf` / `anyOf` / `oneOf` / `not` / `if-then-else`, `$ref` (local `$defs` and `definitions`), format validators (`email`, `uuid`, `date-time`, `uri`, `ipv4`, `ipv6`, `hostname`), and more. Watch mode rerenders results live on each file change, making it practical during active schema development.
 
-```bash
-# Validate a single file
-jsv schema.json data.json
-
-# Validate all JSON files in a directory
-jsv schema.json ./fixtures/
-
-# CI pipeline — JSON output, errors only
-jsv schema.json dist/*.json --json --errors-only
-
-# Coerce string numbers to numbers
-jsv schema.json data.json --coerce
-
-# Watch mode during development
-jsv schema.json data.json --watch
-```
-
-### JSON Output (--json)
-
-```json
-[
-  {
-    "file": "data.json",
-    "status": "invalid",
-    "errors": [
-      {
-        "path": "data.users[0].email",
-        "message": "must be a valid email format"
-      }
-    ]
-  }
-]
-```
-
-## Supported Keywords
-
-### Types
-`string` `number` `integer` `boolean` `array` `object` `null`
-
-### String
-`minLength` `maxLength` `pattern` `format`
-
-**Formats:** `email` `uri` `date` `date-time` `uuid` `ipv4` `ipv6` `hostname`
-
-### Number / Integer
-`minimum` `maximum` `exclusiveMinimum` `exclusiveMaximum` `multipleOf`
-
-### Array
-`items` `additionalItems` `minItems` `maxItems` `uniqueItems` `contains`
-
-### Object
-`properties` `required` `additionalProperties` `patternProperties` `minProperties` `maxProperties` `dependencies`
-
-### Combining Schemas
-`allOf` `anyOf` `oneOf` `not` `if` / `then` / `else`
-
-### References
-`$ref` — local `$defs` and `definitions` only (no external URIs)
-
-### Other
-`enum` `const`
-
-## Example Schema
-
-```json
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "required": ["id", "name", "email"],
-  "properties": {
-    "id":    { "type": "integer", "minimum": 1 },
-    "name":  { "type": "string", "minLength": 2 },
-    "email": { "type": "string", "format": "email" },
-    "role":  { "type": "string", "enum": ["admin", "user", "guest"] },
-    "tags":  { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
-  },
-  "additionalProperties": false
-}
-```
-
-## Security
-
-- Zero external npm dependencies — built-in Node.js modules only (`fs`, `path`, `readline`, `child_process`)
-- No eval, no dynamic requires
-- All file I/O is explicit and sandboxed to provided paths
-- Safe for use in CI/CD pipelines
-
-## Requirements
-
-Node.js >= 18
-
-## License
-
-MIT
+---
+<sub>Zero dependencies · Node ≥ 18 · MIT · by <a href="https://github.com/NickCirv">NickCirv</a></sub>
